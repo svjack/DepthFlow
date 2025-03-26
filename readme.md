@@ -36,6 +36,26 @@
 
 <video src="https://github.com/user-attachments/assets/ea9e3c4e-7e62-4cf7-b0a9-265b9323f83d" loop controls autoplay></video>
 
+```bash
+ttps://brokensrc.dev/depthflow/
+
+pip install depthflow
+pip install transformers "httpx[socks]"
+depthflow gradio --help
+
+depthflow gradio --share
+
+#### 要求有声卡 (使用windows)
+pip install pianola
+
+#### 安装 fluidsynth 并配置路径
+https://github.com/FluidSynth/fluidsynth
+
+pianola main --help
+
+pianola main --output record.mp4
+```
+
 ## 🔥 Description
 
 **DepthFlow** is an advanced _image-to-video_ converter that transforms static pictures into stunning 3D parallax animations. Bring photos to life with motion, featuring high quality and custom presets, perfect for digital art, social media, stock footage, fillers and more.
