@@ -56,6 +56,75 @@ pianola main --help
 pianola main --output record.mp4
 ```
 
+### 在目录 D:\software_ins\Anaconda\envs\py311\Lib\site-packages\Pianola 下运行下面的脚本
+
+```python
+import os
+import re
+import urllib.parse
+from pathlib import Path
+
+# 配置参数
+PIANOLA_FILE = r"D:\software_ins\Anaconda\envs\py311\Lib\site-packages\Pianola\Pianola.py"
+PYTHON_EXE = r"D:\software_ins\Anaconda\envs\py311\python.exe"
+PIANOLA_CMD = r"D:\software_ins\Anaconda\envs\py311\Scripts\pianola.exe"  # 假设这是可执行文件路径
+CHARACTERS = [
+    "七七", "丽莎", "久岐忍", "九条裟罗", "云堇", "五郎", "优菈", "克洛琳德",
+    "八重神子", "凝光", "凯亚", "刻晴", "北斗", "千织", "卡维", "可莉",
+    "嘉明", "坎蒂丝", "埃洛伊", "夏沃蕾", "夏洛蒂", "多莉", "夜兰", "妮露",
+    "娜维娅", "安柏", "宵宫", "希格雯", "托马", "提纳里", "早柚", "林尼",
+    "枫原万叶", "柯莱", "流浪者", "温迪", "烟绯", "珊瑚宫心海", "珐露珊",
+    "班尼特", "琳妮特", "琴", "瑶瑶", "甘雨", "申鹤", "白术", "砂糖",
+    "神里绫人", "神里绫华", "米卡", "纳西妲", "绮良良", "罗莎莉亚", "胡桃",
+    "艾尔海森", "艾梅莉埃", "芙宁娜", "芭芭拉", "荒泷一斗", "莫娜", "莱依拉",
+    "莱欧斯利", "菲米尼", "菲谢尔", "行秋", "诺艾尔", "赛索斯", "赛诺",
+    "辛焱", "达达利亚", "迪卢克", "迪奥娜", "迪希雅", "那维莱特", "重云",
+    "钟离", "闲云", "阿蕾奇诺", "阿贝多", "雷泽", "雷电将军", "香菱", "魈",
+    "鹿野院平藏"
+]
+BASE_URL = "https://huggingface.co/datasets/svjack/Genshin_Impact_Character_Background_MIDI/resolve/main/{}_basic_pitch.mid"
+
+def update_pianola_file(character: str):
+    """更新Pianola.py文件中的TheEntertainer URL"""
+    with open(PIANOLA_FILE, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    # 对字符进行URL编码
+    encoded_character = urllib.parse.quote(character)
+    new_url = BASE_URL.format(encoded_character)
+
+    # 替换TheEntertainer的URL
+    pattern = r'TheEntertainer = "https://[^"]+"'
+    new_content = re.sub(pattern, f'TheEntertainer = "{new_url}"', content)
+
+    # 写回文件
+    with open(PIANOLA_FILE, "w", encoding="utf-8") as f:
+        f.write(new_content)
+
+def render_character(character: str):
+    """使用指定的Python环境渲染指定角色的MIDI"""
+    output_file = f"{character}.mp4"
+    cmd = f'{PIANOLA_CMD} main --output "{output_file}"'
+    print(f"正在渲染: {output_file}")
+    os.system(cmd)
+
+def main():
+    for character in CHARACTERS:
+        print(f"处理角色: {character}")
+
+        # 1. 更新Pianola.py文件
+        update_pianola_file(character)
+        print(f"已更新TheEntertainer为{character}的MIDI")
+
+        # 2. 执行渲染命令
+        render_character(character)
+        print(f"已完成{character}的渲染\n")
+
+if __name__ == "__main__":
+    main()
+
+```
+
 ## 🔥 Description
 
 **DepthFlow** is an advanced _image-to-video_ converter that transforms static pictures into stunning 3D parallax animations. Bring photos to life with motion, featuring high quality and custom presets, perfect for digital art, social media, stock footage, fillers and more.
